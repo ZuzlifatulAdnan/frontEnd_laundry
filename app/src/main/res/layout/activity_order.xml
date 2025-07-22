@@ -1,10 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OrderActivity">
+    android:background="@color/white"
+    tools:context=".ui.order.OrderActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order"
+                android:textColor="@color/colorPrimary"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <!-- Toggle Button Group -->
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/toggle_button_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                app:singleSelection="true"
+                app:checkedButton="@id/btn_self_service">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_self_service"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Self Service"
+                    android:textColor="@color/toggle_button_text_color"
+                    app:backgroundTint="@color/toggle_button_background_color"
+                    app:strokeColor="@color/colorPrimary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_drop_off"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Drop Off"
+                    android:textColor="@color/toggle_button_text_color"
+                    app:backgroundTint="@color/toggle_button_background_color"
+                    app:strokeColor="@color/colorPrimary" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <!-- Form Self Service -->
+            <LinearLayout
+                android:id="@+id/form_self_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:visibility="visible">
+
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Tanggal Order" app:endIconDrawable="@drawable/ic_date" app:endIconMode="custom">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_tanggal_order_self" android:layout_width="match_parent" android:layout_height="wrap_content" android:focusable="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Jam Order" app:endIconDrawable="@drawable/ic_time" app:endIconMode="custom">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_jam_order_self" android:layout_width="match_parent" android:layout_height="wrap_content" android:focusable="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Mesin">
+                    <AutoCompleteTextView android:id="@+id/actv_mesin" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" android:text="-- Pilih Mesin --" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Durasi (Menit)">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_durasi" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Jumlah Koin">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_jumlah_koin" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Form Drop Off -->
+            <LinearLayout
+                android:id="@+id/form_drop_off"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Tanggal Order" app:endIconDrawable="@drawable/ic_date" app:endIconMode="custom">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_tanggal_order_drop" android:layout_width="match_parent" android:layout_height="wrap_content" android:focusable="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Jam Order" app:endIconDrawable="@drawable/ic_time" app:endIconMode="custom">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_jam_order_drop" android:layout_width="match_parent" android:layout_height="wrap_content" android:focusable="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Berat (Kg)">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_berat" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Jumlah Detergen">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_jumlah_detergen" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Tanggal Ambil" app:endIconDrawable="@drawable/ic_date" app:endIconMode="custom">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_tanggal_ambil" android:layout_width="match_parent" android:layout_height="wrap_content" android:focusable="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Input Umum -->
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Catatan">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_catatan" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Total Biaya">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_total_biaya" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" android:focusable="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Tombol Order -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:padding="14dp"
+                android:text="Order"
+                android:backgroundTint="@color/colorPrimary"
+                app:cornerRadius="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>
