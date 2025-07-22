@@ -9,7 +9,7 @@ data class Mesin(
     @SerializedName("nama")
     val nama_mesin: String,
     @SerializedName("type")
-    val tipe: String,
+    val type: String,
     @SerializedName("durasi")
     val durasi: Int, // Durasi ditambahkan
     @SerializedName("status")

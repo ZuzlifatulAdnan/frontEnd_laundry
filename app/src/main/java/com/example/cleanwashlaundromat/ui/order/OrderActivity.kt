@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
@@ -45,20 +47,28 @@ class OrderActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.mesinList.observe(this) { mesinList ->
             val mesinDisplayList = mutableListOf("-- Pilih Mesin --")
-            mesinDisplayList.addAll(mesinList.map { "${it.nama_mesin} - ${it.tipe}" })
+            mesinDisplayList.addAll(mesinList.map { "${it.nama_mesin} - ${it.type}" })
 
-            val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, mesinDisplayList)
-            binding.actvMesin.setAdapter(adapter)
+            // PERBAIKAN: Menggunakan ArrayAdapter untuk Spinner
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, mesinDisplayList)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerMesin.adapter = adapter
 
-            binding.actvMesin.setOnItemClickListener { _, _, position, _ ->
-                if (position > 0) {
-                    val selectedMachine = mesinList[position - 1]
-                    selectedMesinId = selectedMachine.id
-                    // PERBAIKAN: Set durasi otomatis
-                    binding.etDurasi.setText(selectedMachine.durasi.toString())
-                } else {
-                    selectedMesinId = null
-                    binding.etDurasi.setText("") // Kosongkan durasi
+            // PERBAIKAN: Menggunakan OnItemSelectedListener untuk Spinner
+            binding.spinnerMesin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    if (position > 0) {
+                        val selectedMachine = mesinList[position - 1]
+                        selectedMesinId = selectedMachine.id
+                        binding.etDurasi.setText(selectedMachine.durasi.toString())
+                    } else {
+                        selectedMesinId = null
+                        binding.etDurasi.setText("")
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Tidak perlu melakukan apa-apa
                 }
             }
         }

@@ -22,7 +22,7 @@ class MesinAdapter(private var mesinList: List<Mesin>) : RecyclerView.Adapter<Me
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val mesin = mesinList[position]
         holder.nama.text = mesin.nama_mesin
-        holder.tipe.text = "Tipe : ${mesin.tipe}"
+        holder.tipe.text = "Tipe : ${mesin.type}"
         holder.status.text = mesin.status
         val statusColor = if (mesin.status.equals("Ready", ignoreCase = true)) {
             R.color.green_ready

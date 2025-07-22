@@ -73,9 +73,23 @@
                 <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Jam Order" app:endIconDrawable="@drawable/ic_time" app:endIconMode="custom">
                     <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_jam_order_self" android:layout_width="match_parent" android:layout_height="wrap_content" android:focusable="false"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Mesin">
-                    <AutoCompleteTextView android:id="@+id/actv_mesin" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" android:text="-- Pilih Mesin --" />
-                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- PERBAIKAN: Menggunakan Spinner untuk pilihan mesin -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Mesin"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="12sp" />
+                <Spinner
+                    android:id="@+id/spinner_mesin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:padding="16dp"
+                    android:background="@drawable/edit_text_background" />
+
                 <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:hint="Durasi (Menit)">
                     <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_durasi" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>

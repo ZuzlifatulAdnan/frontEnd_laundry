@@ -21,7 +21,7 @@ class MesinAdapter(private val list: List<Mesin>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val m = list[position]
         holder.nama.text = m.nama
-        holder.detail.text = "${m.tipe} - ${m.status}"
+        holder.detail.text = "${m.type} - ${m.status}"
     }
 
     override fun getItemCount(): Int = list.size
