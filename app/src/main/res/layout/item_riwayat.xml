@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="4dp"
+    android:gravity="center_vertical">
+
+    <!-- PERBAIKAN: Menggunakan lebar tetap (dp) yang sama dengan header -->
+    <TextView
+        android:id="@+id/tv_nomor"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/tv_no_order"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="4dp"
+        android:textColor="@android:color/black"
+        android:textSize="11sp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        tools:text="ORD-20250720-001" />
+
+    <TextView
+        android:id="@+id/tv_service"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="11sp"
+        tools:text="Drop Off" />
+
+    <TextView
+        android:id="@+id/tv_tanggal"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="11sp"
+        tools:text="20/07/25" />
+
+    <TextView
+        android:id="@+id/tv_jam"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="11sp"
+        tools:text="13:00" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_status_order"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:chipMinHeight="32dp"
+        tools:text="Diproses"
+        tools:chipBackgroundColor="#FFC107"/>
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_status_pembayaran"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:chipMinHeight="32dp"
+        tools:text="Menunggu Pembayaran"
+        tools:chipBackgroundColor="#F44336"/>
+
+    <TextView
+        android:id="@+id/tv_total_biaya"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingEnd="4dp"
+        android:textColor="@android:color/black"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        tools:text="Rp50.000" />
+
+    <ImageButton
+        android:id="@+id/btn_aksi"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_eye"
+        app:tint="@color/colorPrimary"
+        android:contentDescription="Lihat Detail"/>
+
+</LinearLayout>

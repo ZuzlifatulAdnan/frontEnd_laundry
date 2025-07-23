@@ -48,6 +48,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
     // Retrofit untuk koneksi ke API
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -59,9 +60,14 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     implementation("androidx.activity:activity-ktx:1.9.0")
+
     // Tambahkan dependensi ini untuk logging
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
     // Tambahkan dependensi ini untuk memuat gambar dari URL
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation ("com.android.volley:volley:1.2.1")
+    implementation ("com.google.android.material:material:1.12.0")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 }

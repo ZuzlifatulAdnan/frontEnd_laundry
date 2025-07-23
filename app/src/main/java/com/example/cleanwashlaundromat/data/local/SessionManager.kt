@@ -19,4 +19,12 @@ class SessionManager(context: Context) {
     fun fetchAuthToken(): String? {
         return prefs.getString(AUTH_TOKEN, null)
     }
+    /**
+     * Fungsi baru untuk menghapus token saat logout.
+     */
+    fun clearSession() {
+        val editor = prefs.edit()
+        editor.remove(AUTH_TOKEN)
+        editor.apply()
+    }
 }

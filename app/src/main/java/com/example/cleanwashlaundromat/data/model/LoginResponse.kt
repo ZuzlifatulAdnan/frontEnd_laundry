@@ -6,8 +6,3 @@ data class LoginResponse(
     val token: String?,   // <-- Nama kuncinya 'token', bukan 'jwt-token'
     val user: User?
 )
-data class User(
-    val id: Int,
-    val name: String,
-    val email: String
-)

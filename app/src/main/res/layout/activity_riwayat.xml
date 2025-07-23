@@ -1,10 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.riwayat.RiwayatActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation"
+        android:orientation="vertical">
+
+        <!-- Header Halaman -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Riwayat"
+            android:textColor="@color/colorPrimary"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <!-- Filter -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp">
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2">
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_marginEnd="8dp" android:hint="Status Order">
+                    <AutoCompleteTextView android:id="@+id/actv_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_marginStart="8dp" android:hint="Bulan">
+                    <AutoCompleteTextView android:id="@+id/actv_bulan" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_marginTop="8dp" android:layout_marginEnd="8dp" android:hint="Tahun">
+                    <AutoCompleteTextView android:id="@+id/actv_tahun" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_marginTop="8dp" android:layout_marginStart="8dp" android:hint="Sort By">
+                    <AutoCompleteTextView android:id="@+id/actv_sort" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </GridLayout>
+        </LinearLayout>
+
+        <!-- PERBAIKAN: Tabel di dalam HorizontalScrollView -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- Header Tabel dengan lebar tetap -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="4dp"
+                    android:background="#E0E0E0">
+                    <TextView android:layout_width="30dp" android:layout_height="wrap_content" android:text="No" android:gravity="center" android:textStyle="bold" android:textColor="@android:color/black" android:textSize="12sp"/>
+                    <TextView android:layout_width="120dp" android:layout_height="wrap_content" android:text="No Order" android:gravity="center" android:textStyle="bold" android:textColor="@android:color/black" android:textSize="12sp"/>
+                    <TextView android:layout_width="80dp" android:layout_height="wrap_content" android:text="Service" android:gravity="center" android:textStyle="bold" android:textColor="@android:color/black" android:textSize="12sp"/>
+                    <TextView android:layout_width="80dp" android:layout_height="wrap_content" android:text="Tanggal" android:gravity="center" android:textStyle="bold" android:textColor="@android:color/black" android:textSize="12sp"/>
+                    <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="Jam" android:gravity="center" android:textStyle="bold" android:textColor="@android:color/black" android:textSize="12sp"/>
+                    <TextView android:layout_width="100dp" android:layout_height="wrap_content" android:text="Status Order" android:gravity="center" android:textStyle="bold" android:textColor="@android:color/black" android:textSize="12sp"/>
+                    <TextView android:layout_width="120dp" android:layout_height="wrap_content" android:text="Status Bayar" android:gravity="center" android:textStyle="bold" android:textColor="@android:color/black" android:textSize="12sp"/>
+                    <TextView android:layout_width="80dp" android:layout_height="wrap_content" android:text="Total" android:gravity="center" android:textStyle="bold" android:textColor="@android:color/black" android:textSize="12sp"/>
+                    <TextView android:layout_width="40dp" android:layout_height="wrap_content" android:text="Aksi" android:gravity="center" android:textStyle="bold" android:textColor="@android:color/black" android:textSize="12sp"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_riwayat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_riwayat" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <FrameLayout
+            android:id="@+id/empty_state_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/tv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tidak ada data riwayat."
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>

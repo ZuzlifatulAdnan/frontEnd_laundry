@@ -17,8 +17,10 @@ import com.example.cleanwashlaundromat.R
 import com.example.cleanwashlaundromat.data.model.DropOffOrderRequest
 import com.example.cleanwashlaundromat.data.model.SelfServiceOrderRequest
 import com.example.cleanwashlaundromat.databinding.ActivityOrderBinding
+import com.example.cleanwashlaundromat.ui.akun.AkunActivity
 import com.example.cleanwashlaundromat.ui.beranda.BerandaActivity
 import com.example.cleanwashlaundromat.ui.pembayaran.PembayaranActivity
+import com.example.cleanwashlaundromat.ui.riwayat.RiwayatActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,6 +30,13 @@ class OrderActivity : AppCompatActivity() {
     private val viewModel: OrderViewModel by viewModels()
     private var isSelfService = true
     private var selectedMesinId: Int? = null
+
+    // Kunci untuk Intent Extra agar konsisten
+    companion object {
+        const val EXTRA_PEMBAYARAN_ID = "EXTRA_PEMBAYARAN_ID"
+        const val EXTRA_ORDER_ID = "EXTRA_ORDER_ID"
+        const val EXTRA_JUMLAH_DIBAYAR = "EXTRA_JUMLAH_DIBAYAR"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,24 +50,24 @@ class OrderActivity : AppCompatActivity() {
         setupOrderButton()
         observeViewModel()
 
+        // Ambil daftar mesin yang siap saat activity dibuat
         viewModel.fetchMesinReady()
     }
 
     private fun observeViewModel() {
+        // Observer untuk daftar mesin cuci
         viewModel.mesinList.observe(this) { mesinList ->
             val mesinDisplayList = mutableListOf("-- Pilih Mesin --")
             mesinDisplayList.addAll(mesinList.map { "${it.nama_mesin} - ${it.type}" })
 
-            // PERBAIKAN: Menggunakan ArrayAdapter untuk Spinner
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, mesinDisplayList)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerMesin.adapter = adapter
 
-            // PERBAIKAN: Menggunakan OnItemSelectedListener untuk Spinner
             binding.spinnerMesin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     if (position > 0) {
-                        val selectedMachine = mesinList[position - 1]
+                        val selectedMachine = mesinList[position - 1] // -1 untuk offset hint
                         selectedMesinId = selectedMachine.id
                         binding.etDurasi.setText(selectedMachine.durasi.toString())
                     } else {
@@ -73,19 +82,23 @@ class OrderActivity : AppCompatActivity() {
             }
         }
 
+        // Observer untuk total biaya
         viewModel.totalBiaya.observe(this) { total ->
             binding.etTotalBiaya.setText(total.toString())
         }
 
+        // Observer untuk hasil order
         viewModel.orderResult.observe(this) { result ->
             result.onSuccess { response ->
                 Toast.makeText(this, response.message, Toast.LENGTH_LONG).show()
+                // Pindah ke PembayaranActivity setelah order sukses
                 val intent = Intent(this, PembayaranActivity::class.java).apply {
-                    putExtra("PEMBAYARAN_ID", response.pembayaran.id)
-                    putExtra("TOTAL_BIAYA", response.order.totalBiaya)
+                    putExtra(EXTRA_PEMBAYARAN_ID, response.pembayaran.id)
+                    putExtra(EXTRA_ORDER_ID, response.order.id)
+                    putExtra(EXTRA_JUMLAH_DIBAYAR, response.order.totalBiaya)
                 }
                 startActivity(intent)
-                finish()
+                finish() // Tutup activity ini agar tidak bisa kembali
             }.onFailure {
                 Toast.makeText(this, "Error: ${it.message}", Toast.LENGTH_LONG).show()
             }
@@ -111,7 +124,7 @@ class OrderActivity : AppCompatActivity() {
         }
 
         val request = SelfServiceOrderRequest(
-            mesinId = selectedMesinId!!,
+            mesinId = selectedMesinId!!, // Aman karena sudah divalidasi
             tanggalOrder = tanggalOrderApi,
             jamOrder = binding.etJamOrderSelf.text.toString(),
             durasi = binding.etDurasi.text.toString().toIntOrNull() ?: 0,
@@ -144,22 +157,24 @@ class OrderActivity : AppCompatActivity() {
     }
 
     private fun setupPickers() {
-        binding.etTanggalOrderSelf.setOnClickListener { showDatePickerDialog(it as EditText, true) }
+        binding.etTanggalOrderSelf.setOnClickListener { showDatePickerDialog(it as EditText) }
         binding.etJamOrderSelf.setOnClickListener { showTimePickerDialog(it as EditText) }
-        binding.etTanggalOrderDrop.setOnClickListener { showDatePickerDialog(it as EditText, true) }
+        binding.etTanggalOrderDrop.setOnClickListener { showDatePickerDialog(it as EditText) }
         binding.etJamOrderDrop.setOnClickListener { showTimePickerDialog(it as EditText) }
-        binding.etTanggalAmbil.setOnClickListener { showDatePickerDialog(it as EditText, false) }
+        binding.etTanggalAmbil.setOnClickListener { showDatePickerDialog(it as EditText) }
     }
 
     private fun setupToggleButton() {
         binding.toggleButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 isSelfService = checkedId == R.id.btn_self_service
-                binding.formSelfService.visibility = if (isSelfService) android.view.View.VISIBLE else android.view.View.GONE
-                binding.formDropOff.visibility = if (isSelfService) android.view.View.GONE else android.view.View.VISIBLE
+                binding.formSelfService.visibility = if (isSelfService) View.VISIBLE else View.GONE
+                binding.formDropOff.visibility = if (isSelfService) View.GONE else View.VISIBLE
                 triggerCalculation()
             }
         }
+        // Set default state saat activity pertama kali dibuka
+        binding.toggleButtonGroup.check(R.id.btn_self_service)
     }
 
     private fun setupCalculationListeners() {
@@ -186,36 +201,38 @@ class OrderActivity : AppCompatActivity() {
         }
     }
 
-    private fun showDatePickerDialog(editText: EditText, isOrderDate: Boolean) {
+    private fun showDatePickerDialog(editText: EditText) {
         val calendar = Calendar.getInstance()
-        val dialog = DatePickerDialog(this, { _, year, month, dayOfMonth ->
-            val selectedDate = Calendar.getInstance()
-            selectedDate.set(year, month, dayOfMonth)
-            val apiFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dialog = DatePickerDialog(
+            this,
+            { _, year, month, dayOfMonth ->
+                val selectedDate = Calendar.getInstance()
+                selectedDate.set(year, month, dayOfMonth)
+                val apiFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-            editText.setText(displayFormat.format(selectedDate.time))
-            editText.tag = apiFormat.format(selectedDate.time)
-
-            if (isOrderDate) {
-                binding.etTanggalOrderSelf.setText(displayFormat.format(selectedDate.time))
-                binding.etTanggalOrderDrop.setText(displayFormat.format(selectedDate.time))
-                binding.etTanggalOrderSelf.tag = apiFormat.format(selectedDate.time)
-                binding.etTanggalOrderDrop.tag = apiFormat.format(selectedDate.time)
-            }
-
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+                editText.setText(displayFormat.format(selectedDate.time))
+                editText.tag = apiFormat.format(selectedDate.time)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
         dialog.show()
     }
 
     private fun showTimePickerDialog(editText: EditText) {
         val calendar = Calendar.getInstance()
-        TimePickerDialog(this, { _, hourOfDay, minute ->
-            val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
-            editText.setText(selectedTime)
-            binding.etJamOrderSelf.setText(selectedTime)
-            binding.etJamOrderDrop.setText(selectedTime)
-        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+        TimePickerDialog(
+            this,
+            { _, hourOfDay, minute ->
+                val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
+                editText.setText(selectedTime)
+            },
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        ).show()
     }
 
     private fun setupBottomNavigation() {
@@ -223,12 +240,22 @@ class OrderActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_beranda -> {
-                    startActivity(Intent(this, BerandaActivity::class.java))
+                    startActivity(Intent(this, BerandaActivity::class.java)) // Diperbaiki
                     overridePendingTransition(0, 0)
                     true
                 }
-                R.id.nav_order -> true
-                // ... navigasi lain
+                R.id.nav_order ->
+                    true // Sudah di halaman ini, tidak perlu aksi
+                R.id.nav_riwayat -> {
+                    startActivity(Intent(this, RiwayatActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.nav_akun -> {
+                    startActivity(Intent(this, AkunActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
                 else -> false
             }
         }

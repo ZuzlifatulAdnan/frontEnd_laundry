@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/grey_light">
+
+    <!-- PERBAIKAN: Mengubah warna background header -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Detail Riwayat"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:titleTextColor="@color/white"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Card Informasi Order -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/header_info_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Informasi Order"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/divider1"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#E0E0E0"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/header_info_order" />
+
+                    <!-- Labels -->
+                    <TextView android:id="@+id/label_nama_pengguna" style="@style/DetailLabel" android:text="Nama Pengguna" app:layout_constraintTop_toBottomOf="@id/divider1" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_no_order" style="@style/DetailLabel" android:text="No Order" app:layout_constraintTop_toBottomOf="@id/label_nama_pengguna" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_nama_mesin" style="@style/DetailLabel" android:text="Nama Mesin" app:layout_constraintTop_toBottomOf="@id/label_no_order" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_service_type" style="@style/DetailLabel" android:text="Service Type" app:layout_constraintTop_toBottomOf="@id/label_nama_mesin" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_tanggal_order" style="@style/DetailLabel" android:text="Tanggal Order" app:layout_constraintTop_toBottomOf="@id/label_service_type" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_jam_order" style="@style/DetailLabel" android:text="Jam Order" app:layout_constraintTop_toBottomOf="@id/label_tanggal_order" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_status" style="@style/DetailLabel" android:text="Status" app:layout_constraintTop_toBottomOf="@id/label_jam_order" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_catatan" style="@style/DetailLabel" android:text="Catatan" app:layout_constraintTop_toBottomOf="@id/label_status" app:layout_constraintStart_toStartOf="parent"/>
+
+                    <!-- Values -->
+                    <TextView android:id="@+id/tv_nama_pengguna" style="@style/DetailValue" tools:text="User" app:layout_constraintTop_toTopOf="@id/label_nama_pengguna" app:layout_constraintBottom_toBottomOf="@id/label_nama_pengguna" app:layout_constraintStart_toEndOf="@id/guideline"/>
+                    <TextView android:id="@+id/tv_no_order" style="@style/DetailValue" tools:text="ORD-20250720-001" app:layout_constraintTop_toTopOf="@id/label_no_order" app:layout_constraintBottom_toBottomOf="@id/label_no_order" app:layout_constraintStart_toEndOf="@id/guideline"/>
+                    <TextView android:id="@+id/tv_nama_mesin" style="@style/DetailValue" tools:text="-" app:layout_constraintTop_toTopOf="@id/label_nama_mesin" app:layout_constraintBottom_toBottomOf="@id/label_nama_mesin" app:layout_constraintStart_toEndOf="@id/guideline"/>
+                    <TextView android:id="@+id/tv_service_type" style="@style/DetailValue" tools:text="Drop Off" app:layout_constraintTop_toTopOf="@id/label_service_type" app:layout_constraintBottom_toBottomOf="@id/label_service_type" app:layout_constraintStart_toEndOf="@id/guideline"/>
+                    <TextView android:id="@+id/tv_tanggal_order" style="@style/DetailValue" tools:text="20/07/2025" app:layout_constraintTop_toTopOf="@id/label_tanggal_order" app:layout_constraintBottom_toBottomOf="@id/label_tanggal_order" app:layout_constraintStart_toEndOf="@id/guideline"/>
+                    <TextView android:id="@+id/tv_jam_order" style="@style/DetailValue" tools:text="13:00" app:layout_constraintTop_toTopOf="@id/label_jam_order" app:layout_constraintBottom_toBottomOf="@id/label_jam_order" app:layout_constraintStart_toEndOf="@id/guideline"/>
+                    <TextView android:id="@+id/tv_catatan" style="@style/DetailValue" tools:text="-" app:layout_constraintTop_toTopOf="@id/label_catatan" app:layout_constraintBottom_toBottomOf="@id/label_catatan" app:layout_constraintStart_toEndOf="@id/guideline"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_status_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        tools:text="Diproses"
+                        app:chipBackgroundColor="#FFC107"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toTopOf="@id/label_status"
+                        app:layout_constraintBottom_toBottomOf="@id/label_status"
+                        app:layout_constraintStart_toEndOf="@id/guideline"/>
+
+                    <!-- PERBAIKAN: Guideline diubah agar label lebih rapi -->
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.45" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card Informasi Pembayaran -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/header_info_pembayaran"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Informasi Pembayaran"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/divider2"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#E0E0E0"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/header_info_pembayaran" />
+
+                    <!-- Labels -->
+                    <TextView android:id="@+id/label_no_pembayaran" style="@style/DetailLabel" android:text="No Pembayaran" app:layout_constraintTop_toBottomOf="@id/divider2" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_metode_pembayaran" style="@style/DetailLabel" android:text="Metode Pembayaran" app:layout_constraintTop_toBottomOf="@id/label_no_pembayaran" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_jumlah_dibayar" style="@style/DetailLabel" android:text="Jumlah Dibayar" app:layout_constraintTop_toBottomOf="@id/label_metode_pembayaran" app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/label_status_pembayaran" style="@style/DetailLabel" android:text="Status" app:layout_constraintTop_toBottomOf="@id/label_jumlah_dibayar" app:layout_constraintStart_toStartOf="parent"/>
+
+                    <!-- Values -->
+                    <TextView android:id="@+id/tv_no_pembayaran" style="@style/DetailValue" tools:text="PAY-20250720-001" app:layout_constraintTop_toTopOf="@id/label_no_pembayaran" app:layout_constraintBottom_toBottomOf="@id/label_no_pembayaran" app:layout_constraintStart_toEndOf="@id/guideline2"/>
+                    <TextView android:id="@+id/tv_metode_pembayaran" style="@style/DetailValue" tools:text="Belum dipilih" app:layout_constraintTop_toTopOf="@id/label_metode_pembayaran" app:layout_constraintBottom_toBottomOf="@id/label_metode_pembayaran" app:layout_constraintStart_toEndOf="@id/guideline2"/>
+                    <TextView android:id="@+id/tv_jumlah_dibayar" style="@style/DetailValue" tools:text="Rp. 1.886" app:layout_constraintTop_toTopOf="@id/label_jumlah_dibayar" app:layout_constraintBottom_toBottomOf="@id/label_jumlah_dibayar" app:layout_constraintStart_toEndOf="@id/guideline2"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_status_pembayaran"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        tools:text="Menunggu Pembayaran"
+                        app:chipBackgroundColor="#F44336"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toTopOf="@id/label_status_pembayaran"
+                        app:layout_constraintBottom_toBottomOf="@id/label_status_pembayaran"
+                        app:layout_constraintStart_toEndOf="@id/guideline2"/>
+
+                    <!-- PERBAIKAN: Mengubah warna tombol -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_lanjutkan_pembayaran"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Lanjutkan Pembayaran"
+                        app:icon="@drawable/ic_payment"
+                        app:iconTint="@color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@id/label_status_pembayaran"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <!-- PERBAIKAN: Guideline diubah agar label lebih rapi -->
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.45" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

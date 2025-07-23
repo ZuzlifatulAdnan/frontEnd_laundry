@@ -1,4 +1,4 @@
-package com.example.cleanwashlaundromat.ui.login
+package com.example.cleanwashlaundromat.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.cleanwashlaundromat.data.local.SessionManager
 import com.example.cleanwashlaundromat.databinding.ActivityLoginBinding
 import com.example.cleanwashlaundromat.ui.beranda.BerandaActivity
+import com.example.cleanwashlaundromat.ui.auth.ForgotPasswordActivity
+import com.example.cleanwashlaundromat.ui.auth.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -18,29 +20,31 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // LOG DASAR: Untuk memastikan Activity ini dibuat
-        Log.d("AppFlow", "LOGIN_ACTIVITY: onCreate dimulai.")
-
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupListeners()
         observeViewModel()
-        Log.d("AppFlow", "LOGIN_ACTIVITY: onCreate selesai, listener dan observer sudah di-set.")
     }
 
     private fun setupListeners() {
         binding.btnMasuk.setOnClickListener {
-            // LOG DASAR: Untuk memastikan tombol Masuk berfungsi
-            Log.d("AppFlow", "BUTTON_CLICK: Tombol Masuk diklik.")
-
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 
             if (validateInput(email, password)) {
-                Log.d("AppFlow", "VALIDATION_SUCCESS: Input valid, memanggil ViewModel.")
                 loginViewModel.executeLogin(email, password)
             }
+        }
+
+        binding.tvLupaPassword.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.tvDaftarSekarang.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -51,11 +55,17 @@ class LoginActivity : AppCompatActivity() {
                 is LoginResult.Success -> {
                     showLoading(false)
                     val response = result.data
-                    if (response.success && response.token != null) {
+
+                    // PERBAIKAN: Cek apakah login berhasil DAN rolenya adalah "Customer"
+                    if (response.token != null && response.user?.role?.equals("Customer", ignoreCase = true) == true) {
+                        // Jika berhasil dan role sesuai, lanjutkan login
                         handleLoginSuccess(response.token)
+                    } else if (response.token != null) {
+                        // Jika login berhasil tapi role TIDAK sesuai
+                        Toast.makeText(this, "Hanya customer yang dapat login melalui aplikasi ini.", Toast.LENGTH_LONG).show()
                     } else {
-                        val errorMessage = response.message ?: "Username atau password salah."
-                        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                        // Jika login gagal (token null)
+                        Toast.makeText(this, "Username atau password salah.", Toast.LENGTH_LONG).show()
                     }
                 }
                 is LoginResult.Error -> {
@@ -69,12 +79,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleLoginSuccess(token: String) {
         Toast.makeText(this, "Login Berhasil!", Toast.LENGTH_SHORT).show()
-        Log.d("AppFlow", "LOGIN_SUCCESS: Memulai proses perpindahan ke Beranda.")
 
         val sessionManager = SessionManager(this)
         sessionManager.saveAuthToken(token)
 
         val intent = Intent(this, BerandaActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }

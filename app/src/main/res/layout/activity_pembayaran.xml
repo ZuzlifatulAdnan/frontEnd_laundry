@@ -10,23 +10,22 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation">
+        android:layout_above="@+id/bottom_navigation"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="24dp">
 
             <!-- Header -->
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Pembayaran"
-                android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="34sp"
                 android:textStyle="bold" />
 
             <!-- Metode Pembayaran -->
@@ -41,8 +40,56 @@
                     android:id="@+id/actv_metode_pembayaran"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:labelFor="@+id/actv_metode_pembayaran" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- KONTEN DINAMIS: Info Transfer Bank (Awalnya Tersembunyi) -->
+            <LinearLayout
+                android:id="@+id/layout_info_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:padding="16dp"
+                android:background="@drawable/edit_text_background"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Silakan transfer ke salah satu rekening berikut:"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="BCA: 1234567890 (a.n. CleanWash)"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Mandiri: 0987654321 (a.n. CleanWash)"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <!-- KONTEN DINAMIS: Gambar QRIS (Awalnya Tersembunyi) -->
+            <ImageView
+                android:id="@+id/iv_qris"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_launcher_background"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
 
             <!-- Jumlah Bayar -->
             <com.google.android.material.textfield.TextInputLayout
@@ -57,79 +104,88 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:inputType="number" />
+                    android:inputType="none"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Upload Bukti Bayar -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="Upload Bukti Bayar"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp" />
 
-            <FrameLayout
-                android:id="@+id/frame_upload_foto"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_upload"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/dashed_border">
+                app:cardBackgroundColor="#F5F5F5"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/layout_ambil_foto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/dashed_border"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_camera"
-                        app:tint="@color/grey_dark" />
+                        android:id="@+id/iv_bukti_bayar_preview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/layout_placeholder_upload"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Ambil Foto" />
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_camera"
+                            app:tint="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Ambil Foto atau Pilih dari Galeri"
+                            android:textColor="@color/colorPrimary" />
+                    </LinearLayout>
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/iv_bukti_bayar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone" />
-
-            </FrameLayout>
+            </androidx.cardview.widget.CardView>
 
             <!-- Tombol Aksi -->
-            <LinearLayout
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_update_pembayaran"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:orientation="horizontal">
+                android:backgroundTint="@color/colorPrimary"
+                android:paddingVertical="14dp"
+                android:text="Update Pembayaran"
+                app:cornerRadius="8dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_update_pembayaran"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Update Pembayaran"
-                    app:cornerRadius="8dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_kembali"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Kembali"
-                    app:cornerRadius="8dp"
-                    app:strokeColor="@color/colorAccent" />
-            </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_kembali"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingVertical="14dp"
+                android:text="Kembali"
+                android:textColor="@color/colorPrimary"
+                app:cornerRadius="8dp"
+                app:strokeColor="@color/colorPrimary" />
 
         </LinearLayout>
     </ScrollView>
@@ -145,5 +201,4 @@
         app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
-
 </RelativeLayout>

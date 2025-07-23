@@ -16,4 +16,10 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="status_pending">#FF9800</color> <!-- Orange -->
+    <color name="status_diproses">#2196F3</color> <!-- Blue -->
+    <color name="status_selesai">#4CAF50</color> <!-- Green -->
+    <color name="status_dibatalkan">#F44336</color> <!-- Red -->
+    <color name="status_diterima">#03A9F4</color> <!-- Light Blue -->
+    <color name="status_ditunda">#673AB7</color> <!-- Deep Purple -->
 </resources>
