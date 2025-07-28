@@ -22,7 +22,7 @@ class BerandaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBerandaBinding
     private val viewModel: BerandaViewModel by viewModels()
     private lateinit var mesinAdapter: MesinAdapter
-    private val apiHost = "192.168.42.157"
+    private val apiHost = "192.168.42.81"
 
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var runnable: Runnable
