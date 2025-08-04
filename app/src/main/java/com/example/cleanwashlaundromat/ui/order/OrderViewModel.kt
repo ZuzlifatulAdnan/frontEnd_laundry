@@ -66,7 +66,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun calculateSelfServiceTotal(jumlahKoin: Int) {
-        val total = jumlahKoin * 10000L
+        val total = jumlahKoin * 12000L
         _totalBiaya.postValue(total)
     }
 
