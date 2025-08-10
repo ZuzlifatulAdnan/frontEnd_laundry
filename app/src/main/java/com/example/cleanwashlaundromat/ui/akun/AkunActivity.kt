@@ -66,7 +66,7 @@ class AkunActivity : AppCompatActivity() {
             binding.tvEmail.text = user.email
             binding.tvNoHandphone.text = user.noHandphone ?: "-"
 
-            val imageUrl = "http://192.168.42.81:8000/img/user/${user.image}"
+            val imageUrl = "http://10.0.2.2:8000/img/user/${user.image}"
             Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_person_placeholder)

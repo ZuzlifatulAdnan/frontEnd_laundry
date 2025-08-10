@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
     // Pastikan IP ini sudah benar untuk perangkat Anda (HP fisik)
    // private const val BASE_URL = "http://192.168.1.9:8000/"
-    private const val BASE_URL = "http://192.168.42.81:8000/"
+    private const val BASE_URL = "http://10.0.2.2:8000/"
 
     fun getInstance(context: Context): ApiService {
         // 1. Buat Logging Interceptor
