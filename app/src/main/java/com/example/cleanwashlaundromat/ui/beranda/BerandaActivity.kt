@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.cleanwashlaundromat.R
 import com.example.cleanwashlaundromat.data.model.BerandaResponse
+import com.example.cleanwashlaundromat.data.remote.ApiClient
 import com.example.cleanwashlaundromat.databinding.ActivityBerandaBinding
 import com.example.cleanwashlaundromat.ui.akun.AkunActivity
 import com.example.cleanwashlaundromat.ui.order.OrderActivity
@@ -42,8 +43,8 @@ class BerandaActivity : AppCompatActivity() {
 
     private fun setupBannerCarousel() {
         val bannerUrls = listOf(
-            "http://$apiHost:8000/img/beranda/beranda1.jpeg",
-            "http://$apiHost:8000/img/beranda/beranda2.jpeg"
+            "${ApiClient.BASE_URL}img/beranda/beranda1.jpeg",
+            "${ApiClient.BASE_URL}img/beranda/beranda2.jpeg"
         )
         val bannerAdapter = BannerAdapter(bannerUrls)
         binding.viewPagerBanner.adapter = bannerAdapter
@@ -83,7 +84,7 @@ class BerandaActivity : AppCompatActivity() {
 
     private fun populateData(data: BerandaResponse) {
         binding.tvUserName.text = "Hi, ${data.user.name}"
-        val correctedUserImageUrl = data.user.imageUrl?.replace("127.0.0.1", apiHost)
+        val correctedUserImageUrl = data.user.imageUrl?.replace("127.0.0.1", ApiClient.BASE_URL)
         Glide.with(this).load(correctedUserImageUrl).circleCrop()
             .placeholder(R.mipmap.ic_launcher_round)
             .error(R.mipmap.ic_launcher_round)

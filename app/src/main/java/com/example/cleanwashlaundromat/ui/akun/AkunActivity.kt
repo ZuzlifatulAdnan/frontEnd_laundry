@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.cleanwashlaundromat.R
 import com.example.cleanwashlaundromat.data.local.SessionManager
+import com.example.cleanwashlaundromat.data.remote.ApiClient
 import com.example.cleanwashlaundromat.databinding.ActivityAkunBinding
 import com.example.cleanwashlaundromat.ui.beranda.BerandaActivity
 import com.example.cleanwashlaundromat.ui.auth.LoginActivity
@@ -66,7 +67,7 @@ class AkunActivity : AppCompatActivity() {
             binding.tvEmail.text = user.email
             binding.tvNoHandphone.text = user.noHandphone ?: "-"
 
-            val imageUrl = "http://10.0.2.2:8000/img/user/${user.image}"
+            val imageUrl = "${ApiClient.BASE_URL}img/user/${user.image}"
             Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_person_placeholder)

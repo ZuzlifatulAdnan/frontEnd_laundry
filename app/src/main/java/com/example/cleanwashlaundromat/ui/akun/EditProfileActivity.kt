@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.cleanwashlaundromat.R
 import com.example.cleanwashlaundromat.data.model.User
+import com.example.cleanwashlaundromat.data.remote.ApiClient
 import com.example.cleanwashlaundromat.databinding.ActivityEditProfileBinding
 
 class EditProfileActivity : AppCompatActivity() {
@@ -69,7 +70,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         // PERBAIKAN: Cek jika gambar ada sebelum memuatnya
         if (!user.image.isNullOrEmpty()) {
-            val imageUrl = "http://192.168.42.157:8000/img/user/${user.image}"
+            val imageUrl = "${ApiClient.BASE_URL}img/user/${user.image}"
             Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_person_placeholder)

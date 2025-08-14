@@ -1,6 +1,5 @@
 package com.example.cleanwashlaundromat.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -11,39 +10,39 @@ import com.example.cleanwashlaundromat.databinding.ActivitySplashBinding
 import com.example.cleanwashlaundromat.ui.auth.LoginActivity
 import com.example.cleanwashlaundromat.ui.beranda.BerandaActivity
 
-@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
-    private val splashTimeOut: Long = 3000 // 3 detik
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Gunakan Handler untuk menunda perpindahan ke activity berikutnya
+        sessionManager = SessionManager(this)
+
+        // Gunakan Handler untuk memberi jeda sesaat sebelum pindah halaman
         Handler(Looper.getMainLooper()).postDelayed({
-            checkUserSession()
-        }, splashTimeOut)
+            checkLoginStatus()
+        }, 2000) // Jeda 2 detik
     }
 
-    private fun checkUserSession() {
-        val sessionManager = SessionManager(this)
+    private fun checkLoginStatus() {
+        // Ambil token dari SessionManager
         val token = sessionManager.fetchAuthToken()
 
-        // Cek apakah token ada (user sudah login)
-        if (token != null) {
-            // Jika sudah login, arahkan ke BerandaActivity
-            val intent = Intent(this, BerandaActivity::class.java)
+        if (token.isNullOrEmpty()) {
+            // Jika token tidak ada, pergi ke Halaman Login
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         } else {
-            // Jika belum login, arahkan ke LoginActivity
-            val intent = Intent(this, LoginActivity::class.java)
+            // Jika token ada, pergi ke Halaman Beranda
+            val intent = Intent(this, BerandaActivity::class.java)
             startActivity(intent)
         }
 
-        // Tutup SplashActivity agar tidak bisa kembali
+        // Tutup SplashActivity agar tidak bisa kembali ke sini
         finish()
     }
 }
